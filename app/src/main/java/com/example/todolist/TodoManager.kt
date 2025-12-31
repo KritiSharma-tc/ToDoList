@@ -7,9 +7,6 @@ object TodoManager {
 
     private val todoList = mutableListOf<Todo>()
 
-    fun getAllTodos(): List<Todo> {
-        return todoList
-    }
 
     fun getAllTodo() : List<Todo>{
         return todoList
