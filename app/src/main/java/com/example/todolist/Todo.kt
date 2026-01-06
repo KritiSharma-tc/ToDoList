@@ -8,7 +8,7 @@ import java.util.Date
  * Contains only data, no business logic.
  */
 data class Todo(
-    var id: Long,
+    val id: Long,
     var title: String,
-    var createdAt: Date
+    val createdAt: Date
 )

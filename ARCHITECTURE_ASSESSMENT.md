@@ -96,7 +96,7 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
 interface TodoRepository {
     fun getAllTodos(): List<Todo>
     fun addTodo(title: String)
-    fun deleteTodo(id: Int)
+    fun deleteTodo(id: Long)
 }
 
 // Implementation (can be swapped/mocked)
