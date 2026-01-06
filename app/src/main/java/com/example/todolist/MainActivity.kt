@@ -13,9 +13,14 @@ import com.example.todolist.ui.theme.MyAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val todoViewModel = ViewModelProvider(this)[TodoViewModel::class.java]
+        
+        // Initialize repository and ViewModel with proper dependency injection
+        val repository: TodoRepository = TodoRepositoryImpl()
+        val viewModelFactory = TodoViewModelFactory(repository)
+        val todoViewModel = ViewModelProvider(this, viewModelFactory)[TodoViewModel::class.java]
+        
         setContent {
-            MyAppTheme{
+            MyAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

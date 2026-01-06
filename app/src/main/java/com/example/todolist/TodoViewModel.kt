@@ -4,30 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class TodoViewModel : ViewModel() {
+/**
+ * ViewModel for managing Todo list UI state.
+ * Follows strict MVVM: depends on Repository abstraction, not concrete implementation.
+ * The repository is injected via constructor for better testability and decoupling.
+ */
+class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
 
-    private var _todoList = MutableLiveData<List<Todo>>()
-    val todoList : LiveData<List<Todo>> = _todoList
+    private val _todoList = MutableLiveData<List<Todo>>()
+    val todoList: LiveData<List<Todo>> = _todoList
 
     init {
-        getAllTodo()
+        loadTodos()
     }
 
-
-    fun getAllTodo(){
-        _todoList.value = TodoManager.getAllTodo().reversed()
+    private fun loadTodos() {
+        _todoList.value = repository.getAllTodos().reversed()
     }
 
-    fun addTodo(title : String){
-        TodoManager.addTodo(title)
-        getAllTodo()
-
+    fun addTodo(title: String) {
+        repository.addTodo(title)
+        loadTodos()
     }
 
-    fun deleteTodo(id : Int){
-        TodoManager.deleteTodo(id)
-        getAllTodo()
+    fun deleteTodo(id: Int) {
+        repository.deleteTodo(id)
+        loadTodos()
     }
-
-
 }
