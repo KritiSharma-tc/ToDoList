@@ -1,6 +1,5 @@
 package com.example.todolist
 
-import java.time.Instant
 import java.util.Date
 
 /**
@@ -16,7 +15,8 @@ class TodoRepositoryImpl : TodoRepository {
     }
 
     override fun addTodo(title: String) {
-        todoList.add(Todo(System.currentTimeMillis(), title, Date.from(Instant.now())))
+        val timestamp = System.currentTimeMillis()
+        todoList.add(Todo(timestamp, title, Date(timestamp)))
     }
 
     override fun deleteTodo(id: Long) {
