@@ -35,6 +35,14 @@ import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+/**
+ * View layer - TodoListPage Composable
+ * Strictly follows MVVM principles:
+ * - Only responsible for UI rendering and user interaction
+ * - Observes ViewModel state via LiveData
+ * - Delegates all business logic to ViewModel
+ * - Manages only UI-specific state (like input field text)
+ */
 @Composable
 fun TodoListPage(viewModel: TodoViewModel){
 
