@@ -16,13 +16,12 @@ class TodoRepositoryImpl : TodoRepository {
     }
 
     override fun addTodo(title: String) {
-        todoList.add(Todo(System.currentTimeMillis().toInt(), title, Date.from(Instant.now())))
+        todoList.add(Todo(System.currentTimeMillis(), title, Date.from(Instant.now())))
     }
 
-    override fun deleteTodo(id: Int) {
+    override fun deleteTodo(id: Long) {
         todoList.removeIf {
             it.id == id
         }
     }
 }
-

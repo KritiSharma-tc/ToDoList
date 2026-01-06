@@ -7,5 +7,5 @@ package com.example.todolist
 interface TodoRepository {
     fun getAllTodos(): List<Todo>
     fun addTodo(title: String)
-    fun deleteTodo(id: Int)
+    fun deleteTodo(id: Long)
 }

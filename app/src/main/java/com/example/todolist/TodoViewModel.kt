@@ -27,7 +27,7 @@ class TodoViewModel(private val repository: TodoRepository) : ViewModel() {
         loadTodos()
     }
 
-    fun deleteTodo(id: Int) {
+    fun deleteTodo(id: Long) {
         repository.deleteTodo(id)
         loadTodos()
     }
