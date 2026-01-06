@@ -21,5 +21,17 @@ object TodoManager {
             it.id==id
         }
     }
+
+    fun updateTodo(id: Int, newTitle: String) {
+        val index = todoList.indexOfFirst { it.id == id }
+        if (index != -1) {
+            val oldTodo = todoList[index]
+            todoList[index] = oldTodo.copy(
+                title = newTitle,
+                createdAt = Date.from(Instant.now()) // ⏰ update time
+            )
+        }
+    }
+
 }
 

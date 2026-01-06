@@ -21,12 +21,15 @@ class TodoViewModel : ViewModel() {
     fun addTodo(title : String){
         TodoManager.addTodo(title)
         getAllTodo()
-
     }
 
     fun deleteTodo(id : Int){
         TodoManager.deleteTodo(id)
         getAllTodo()
+    }
+    fun updateTodo(todoId: Int, newTitle: String) {
+        TodoManager.updateTodo(todoId, newTitle)
+        getAllTodo() // refresh list
     }
 
 

@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,18 +35,22 @@ import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-@Composable
-fun TodoListPage(viewModel: TodoViewModel){
 
+
+
+@Composable
+fun TodoListPage(viewModel: TodoViewModel, navController: NavController) {
 
     val todoList by viewModel.todoList.observeAsState()
     var inputText by remember {
         mutableStateOf("")
     }
-    val isValidInput = inputText.trim().isNotEmpty()
+    val isValidInput = inputText.isNotEmpty()
+
 
     Column( modifier = Modifier .fillMaxHeight() .padding(top=60.dp) )
     {
@@ -57,6 +64,7 @@ fun TodoListPage(viewModel: TodoViewModel){
              modifier = Modifier.fillMaxWidth(),
              textAlign = TextAlign.Center,
         )
+        Spacer(modifier = Modifier.height(20.dp))
 
 
         Row(
@@ -70,7 +78,6 @@ fun TodoListPage(viewModel: TodoViewModel){
                 value = inputText,
                 onValueChange = {
                     inputText = it
-                    //isError = false
 
                 },
             )
@@ -82,7 +89,7 @@ fun TodoListPage(viewModel: TodoViewModel){
                 viewModel.addTodo(inputText)
                 inputText = ""
             }) {
-                Text(text = "Add")
+                Text(text = "Add", color=Color.White, fontSize=18.sp)
             }
         }
 
@@ -92,24 +99,19 @@ fun TodoListPage(viewModel: TodoViewModel){
                     itemsIndexed(it){index: Int, item: Todo ->
                         TodoItem(item = item, onDelete = {
                             viewModel.deleteTodo(item.id)
-                        })
+                        }, {
+                            navController.navigate("editTodoItem/${item.id}")
+                        } )
                     }
                 }
             )
-        }?: Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = "No items yet",
-            fontSize = 16.sp
-        )
-
-
+        }
     }
 
 }
 
 @Composable
-fun TodoItem(item : Todo,onDelete : ()-> Unit) {
+fun TodoItem(item : Todo,onDelete : ()-> Unit, onEdit : ()-> Unit ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,6 +135,16 @@ fun TodoItem(item : Todo,onDelete : ()-> Unit) {
                 color = Color.White
             )
         }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+    IconButton(onClick = onEdit) {
+        Icon(
+            imageVector = Icons.Default.Edit,
+            contentDescription = "Edit",
+            tint = Color.White
+        )
+    }
         IconButton(onClick = onDelete) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_delete_24),
@@ -140,5 +152,6 @@ fun TodoItem(item : Todo,onDelete : ()-> Unit) {
                 tint = Color.White
             )
         }
-    }
-}
+
+
+}}
