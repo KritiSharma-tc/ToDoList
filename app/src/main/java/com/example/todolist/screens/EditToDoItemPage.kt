@@ -1,20 +1,8 @@
-package com.example.todolist
+package com.example.todolist.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -22,21 +10,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.todolist.viewModel.TodoViewModel
 
 @Composable
-fun editTodoItem(
+fun EditTodoScreen(
     todoId: Int,
     viewModel: TodoViewModel,
     navController: NavController
-)
-{
-    val todoList by viewModel.todoList.observeAsState()
-    val todo = todoList?.find { it.id == todoId }
-
-    var editedTitle by remember {
-        mutableStateOf(todo?.title ?: "")
-    }
-
+) {
+    val todo = viewModel.getTodoById(todoId)
+    var editedTitle by remember { mutableStateOf(todo?.title ?: "") }
 
     Column(
         modifier = Modifier
@@ -80,7 +63,3 @@ fun editTodoItem(
         }
     }
 }
-
-
-
-

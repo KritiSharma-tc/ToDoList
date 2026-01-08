@@ -1,6 +1,5 @@
-package com.example.todolist
+package com.example.todolist.data
 
-import java.time.Instant
 import java.util.Date
 
 data class Todo(
