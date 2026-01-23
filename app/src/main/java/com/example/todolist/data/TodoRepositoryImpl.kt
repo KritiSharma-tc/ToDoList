@@ -2,19 +2,19 @@ package com.example.todolist.data
 
 
 import android.os.Build
+
 import java.time.Instant
 import java.util.Date
 
-class TodoRepositoryImpl : TodoRepository {
+class TodoRepositoryImpl(
+    private val dao: TodoDao
+) : TodoRepository {
 
-    private val todos = mutableListOf<Todo>()
-
-    override fun getTodos(): List<Todo> = todos
+    override fun getTodos(): List<Todo> = dao.getTodos()
 
     override fun addTodo(title: String) {
-        todos.add(
+        dao.insert(
             Todo(
-                id = System.currentTimeMillis().toInt(),
                 title = title,
                 createdAt = Date.from(Instant.now())
             )
@@ -22,22 +22,17 @@ class TodoRepositoryImpl : TodoRepository {
     }
 
     override fun deleteTodo(id: Int) {
-        todos.removeIf { it.id == id }
+        dao.getTodoById(id)?.let { dao.delete(it) }
     }
 
     override fun updateTodo(id: Int, newTitle: String) {
-        val index = todos.indexOfFirst { it.id == id }
-        if (index != -1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                todos[index] = todos[index].copy(
-                    title = newTitle,
-                    createdAt = Date.from(Instant.now())
-                )
-            }
-        }
+        dao.update(
+            id = id,
+            title = newTitle,
+            date = Date.from(Instant.now())
+        )
     }
 
-    override fun getTodoById(id: Int): Todo? {
-        return todos.find { it.id == id }
-    }
+    override fun getTodoById(id: Int): Todo? =
+        dao.getTodoById(id)
 }

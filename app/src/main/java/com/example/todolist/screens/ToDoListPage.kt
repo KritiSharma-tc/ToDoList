@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.todolist.data.Todo
-import com.example.todolist.viewModel.TodoViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
