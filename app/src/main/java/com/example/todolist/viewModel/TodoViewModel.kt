@@ -1,25 +1,27 @@
-package com.example.todolist.viewModel
-
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.todolist.data.Todo
+import com.example.todolist.data.TodoDatabase
 import com.example.todolist.data.TodoRepository
 import com.example.todolist.data.TodoRepositoryImpl
 
-class TodoViewModel(
-    private val repository: TodoRepository = TodoRepositoryImpl()
-) : ViewModel() {
+class TodoViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: TodoRepository
 
     private val _todos = MutableLiveData<List<Todo>>(emptyList())
     val todos: LiveData<List<Todo>> = _todos
 
     init {
+        val db = TodoDatabase.getInstance(application)
+        repository = TodoRepositoryImpl(db.todoDao())
         loadTodos()
     }
 
     private fun loadTodos() {
-        _todos.value = repository.getTodos().reversed()
+        _todos.value = repository.getTodos()
     }
 
     fun addTodo(title: String) {
@@ -38,7 +40,6 @@ class TodoViewModel(
         loadTodos()
     }
 
-    fun getTodoById(id: Int): Todo? {
-        return repository.getTodoById(id)
-    }
+    fun getTodoById(id: Int): Todo? =
+        repository.getTodoById(id)
 }

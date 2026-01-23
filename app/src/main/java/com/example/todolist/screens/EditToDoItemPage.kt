@@ -1,5 +1,6 @@
 package com.example.todolist.ui
 
+import TodoViewModel
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,7 +11,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.todolist.viewModel.TodoViewModel
 
 @Composable
 fun EditTodoScreen(
